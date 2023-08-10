@@ -112,7 +112,7 @@ def create_group(request):
             group.save()
 
             # Add the creator of the group as a member with the role of "admin"
-            member = Member(user=request.user, group=group, role="admin")
+            member = Member(user=request.user, group=group)
             member.save()
 
             return redirect('homepage')
