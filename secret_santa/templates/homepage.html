@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <title>My Groups</title>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Munera</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Search Form -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <form action="{% url 'search_groups' %}" method="get">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search for groups"
+                name="query"
+                required
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Your Groups Section -->
+      <h1 class="mt-4">Your Groups</h1>
+      {% if groups %}
+      <ul class="list-group">
+        {% for group in groups %}
+        <li class="list-group-item">
+          <a href="{% url 'group_detail' group.id %}">{{ group.name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="alert alert-info">You have no groups.</p>
+      {% endif %}
+
+      <!-- Create Group Button -->
+      <a href="{% url 'create_group' %}" class="btn btn-primary mt-3"
+        >Create New Group</a
+      >
+
+      <!-- Your Secret Santa Assignments Section -->
+      <h2 class="mt-4">Your Secret Santa Assignments:</h2>
+      {% if assignments %}
+      <ul class="list-group">
+        {% for assignment in assignments %}
+        <li class="list-group-item">
+          Assigned to: {{ assignment.receiver.username }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="alert alert-info">You have no Secret Santa assignments.</p>
+      {% endif %}
+
+      <!-- Join Requests Section -->
+      <h2 class="mt-4">Member Join Requests:</h2>
+      {% if join_requests %}
+      <ul class="list-group">
+        {% for request in join_requests %}
+        <li class="list-group-item">
+          {{ request.user.username }} wants to join {{ request.group.name }} |
+          <a href="{% url 'accept_request' request.id %}">Accept</a> |
+          <a href="{% url 'reject_request' request.id %}">Reject</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="alert alert-info">You have no pending member join requests.</p>
+      {% endif %}
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
