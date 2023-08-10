@@ -128,3 +128,4 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+CSRF_TRUSTED_ORIGINS = ['munera.onrender.com']
